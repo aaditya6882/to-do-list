@@ -4,187 +4,72 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/static/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <title>To Do List</title>
   </head>
   <body>
     <header>
-      <div id="AllList"><p>All List</p></div>
-      <div id="today"><p>Today</p></div>
-      <div id="Upcomming"><p>Upcomming</p></div>
+      <div id="AllList">
+        <i class="fa-solid fa-list"></i>
+        <p>All List</p>
+      </div>
+      <div id="today">
+        <i class="fa-solid fa-calendar-day"></i>
+        <p>Today</p>
+      </div>
+      <div id="Upcomming">
+        <i class="fa-solid fa-calendar-week"></i>
+        <p>Upcomming</p>
+      </div>
       <div onclick="window.location.href='/static/form.html'">
+        <i class="fa-solid fa-plus"></i>
         <p>Add List</p>
       </div>
     </header>
+
     <section>
       <div class="Search">
-        <input type="text" placeholder="Search" />
+        <input type="text" placeholder="🔍 Search" />
       </div>
+
       <div class="Day-delete">
         <h2 id="date-day">All List</h2>
         <div class="delete-filter">
-          <p>Clear Completed List</p>
-          <p>filter</p>
+          <p><i class="fa-solid fa-trash"></i> Clear Completed</p>
+          <p><i class="fa-solid fa-filter"></i> Filter</p>
         </div>
       </div>
+
       <div class="to-do-list">
-        <input type="checkbox" name="" id="" class="select to-do" />
-        <h1>To dO List</h1>
+        <input type="checkbox" class="select to-do" />
+        <h1>To Do List</h1>
       </div>
+
       <div class="container">
         <div><p>TO DO</p></div>
         <div><p>Critical</p></div>
         <div><p>Completed</p></div>
       </div>
+
+      <!-- Personal -->
       <main class="Personal">
-        <h2>Personal</h2>
-        <div class="main-container">
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-        </div>
+        <h2><i class="fa-solid fa-user"></i> Personal</h2>
+        <div class="main-container"></div>
       </main>
+
+      <!-- Work -->
       <main class="Work">
-        <h2>Work</h2>
-        <div class="main-container">
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-        </div>
+        <h2><i class="fa-solid fa-briefcase"></i> Work</h2>
+        <div class="main-container"></div>
       </main>
+
+      <!-- Other -->
       <main class="Other">
-        <h2>Other</h2>
-        <div class="main-container">
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-          <div class="List">
-            <input type="checkbox" name="" id="" class="select container" />
-            <p>Meeting With Client</p>
-          </div>
-        </div>
+        <h2><i class="fa-solid fa-ellipsis"></i> Other</h2>
+        <div class="main-container"></div>
       </main>
     </section>
   </body>

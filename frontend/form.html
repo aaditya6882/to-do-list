@@ -23,14 +23,31 @@
             />
           </svg>
         </div>
+
         <label for="title">Title</label>
-        <input type="text" class="input-title" />
-        <label for="discription">Discription</label>
-        <textarea name="" id="" class="input" rows="5"></textarea>
-        <label for="set-due-date">Set Due Date</label>
-        <input type="date" name="" id="" class="input-date" />
-        <button>Submit</button>
+        <input type="text" id="title" />
+
+        <label for="description">Description</label>
+        <textarea id="description" rows="5"></textarea>
+
+        <label for="due-date">Set Due Date</label>
+        <input type="date" id="due-date" />
+
+        <label for="category">Category</label>
+        <select id="category">
+          <option value="Personal">Personal</option>
+          <option value="Work">Work</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label for="importance">Priority</label>
+        <select id="importance">
+          <option value="ToDo">To-Do</option>
+          <option value="Critical">Critical</option>
+        </select>
+        <button id="submit-btn">Submit</button>
       </main>
     </section>
   </body>
+  <script src="/static/javascript/formScript.js"></script>
 </html>
