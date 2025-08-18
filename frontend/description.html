@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Description</title>
+    <link rel="stylesheet" href="/static/css/description-style.css" />
+  </head>
+  <body>
+    <div class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="window.history.back()">&times;</span>
+        <h2 id="task-title">Task Title</h2>
+        <p id="task-description">Task description goes here...</p>
+        <p class="due-date">Due Date: <span id="task-dueDate"></span></p>
+        <button id="mark-completed-btn">Mark As Completed</button>
+      </div>
+    </div>
+
+    <script src="/static/javascript/description-script.js"></script>
+  </body>
+</html>
