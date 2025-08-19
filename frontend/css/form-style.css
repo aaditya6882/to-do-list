@@ -1,0 +1,71 @@
+:root {
+  --primary: #e1e1e1;
+  --secondary: #f1f1f1;
+  --neutral: #3b82f6;
+  --neutral-critical: #f63b3e;
+}
+* {
+  box-sizing: border-box;
+}
+section {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  padding: 0 160px;
+  gap: 32px;
+  margin: 0 auto;
+}
+main {
+  grid-column: 3/11;
+  margin: 0px -32px;
+  background-color: var(--secondary);
+  display: flex;
+  flex-direction: column;
+}
+.input-title {
+  width: 544px;
+}
+.input-date {
+  width: 200px;
+}
+main input {
+  height: 50px;
+  border-radius: 5px;
+  border: none;
+  margin: 20px 32px;
+}
+main textarea {
+  margin: 20px 32px;
+  width: 544px;
+}
+main label {
+  margin-left: 32px;
+  margin-top: 40px;
+}
+button {
+  width: 209px;
+  margin: 40px 32px;
+  height: 50px;
+  background-color: var(--neutral);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+h1 {
+  grid-column: 6/8;
+  margin-top: 50px;
+}
+.cancel {
+  display: flex;
+  justify-content: flex-end;
+}
+.cancel svg {
+  cursor: pointer;
+}
+main select {
+  height: 50px;
+  border-radius: 5px;
+  border: none;
+  margin: 20px 32px;
+  padding: 0 10px;
+  background-color: #fff;
+}
