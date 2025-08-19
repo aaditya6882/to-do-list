@@ -23,22 +23,6 @@ if (Upcoming) {
   });
 }
 
-// Dropdown menu
-document.querySelectorAll(".list-menu").forEach((menu) => {
-  menu.onclick = function (e) {
-    e.stopPropagation();
-    let dropdown = menu.nextElementSibling;
-    dropdown.style.display =
-      dropdown.style.display === "block" ? "none" : "block";
-  };
-});
-
-document.onclick = function () {
-  document
-    .querySelectorAll(".dropdown-menu")
-    .forEach((drop) => (drop.style.display = "none"));
-};
-
 // Main toDo function with filter
 async function toDo(filter = "all") {
   const personal = document.querySelector(".Personal .main-container");
@@ -72,6 +56,15 @@ async function toDo(filter = "all") {
 
       const taskDiv = document.createElement("div");
       taskDiv.classList.add("List");
+      taskDiv.dataset.completed = t.completed ? "true" : "false";
+      let color = "";
+      if (t.completed) {
+        color = "blue";
+      } else if (t.priority === "Critical") {
+        color = "red";
+      } else if (t.priority === "ToDo") {
+        color = "gray";
+      }
       taskDiv.innerHTML = `
         <input type="checkbox" class="select container" />
         <p onclick="window.location.href='/static/description.html?title=${encodeURIComponent(
@@ -81,12 +74,14 @@ async function toDo(filter = "all") {
         </p>
         <div class="list-menu-wrapper">
           <span class="list-menu">⋮</span>
+
           <div class="dropdown-menu">
             <span class="edit-btn">Edit</span>
             <span class="view-btn">View</span>
             <span class="delete-btn">Delete</span>
           </div>
         </div>
+        <span class="priority-indicator" style="background-color: ${color};"></span>
       `;
 
       if (t.category.toLowerCase() === "work" && work)
@@ -99,6 +94,110 @@ async function toDo(filter = "all") {
     console.error("Error fetching todos:", error);
   }
 }
+// Event delegation for dropdowns
+document.addEventListener("click", (e) => {
+  // Check if the clicked element has class 'list-menu' (the triple dot)
+  if (e.target.classList.contains("list-menu")) {
+    e.stopPropagation(); // prevent document click from closing it immediately
+    const dropdown = e.target.nextElementSibling;
+    dropdown.style.display =
+      dropdown.style.display === "block" ? "none" : "block";
+  } else {
+    // Clicked outside, close all dropdowns
+    document.querySelectorAll(".dropdown-menu").forEach((drop) => {
+      drop.style.display = "none";
+    });
+  }
+});
 
+const deletes = document.querySelector("#delete");
+
+const selectAll = document.querySelector("#selectAll");
+
+selectAll?.addEventListener("change", (e) => {
+  const allCheckboxes = document.querySelectorAll(".select");
+  allCheckboxes.forEach((box) => {
+    box.checked = e.target.checked;
+  });
+});
+
+document.addEventListener("change", (e) => {
+  if (e.target.classList.contains("select")) {
+    const anyChecked = [...document.querySelectorAll(".select")].some(
+      (box) => box.checked
+    );
+    deletes.style.display = anyChecked ? "block" : "none";
+  }
+});
+async function deleteTask(taskDiv, title) {
+  try {
+    const res = await fetch(`/api/todos/${encodeURIComponent(title)}`, {
+      method: "DELETE",
+    });
+    if (res.ok) taskDiv.remove();
+    else console.error("Failed to delete task");
+  } catch (err) {
+    console.error("Error deleting task:", err);
+  }
+}
+const clearCompleted = document.querySelector(".CompletedClear");
+clearCompleted?.addEventListener("click", async () => {
+  const allLists = document.querySelectorAll(".List");
+  for (const taskDiv of allLists) {
+    if (taskDiv.dataset.completed === "true") {
+      const title = taskDiv.querySelector("p").textContent.trim();
+      await deleteTask(taskDiv, title);
+    }
+  }
+});
+
+deletes.addEventListener("click", () => {
+  const checkedBoxes = document.querySelectorAll(".select:checked");
+
+  for (const box of checkedBoxes) {
+    const taskDiv = box.closest(".List");
+    if (!taskDiv) continue;
+
+    const title = taskDiv.querySelector("p").textContent.trim();
+    deleteTask(taskDiv, title);
+  }
+
+  deletes.style.display = "none";
+});
+
+document.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("delete-btn")) {
+    const taskDiv = e.target.closest(".List");
+    if (!taskDiv) return;
+    const title = taskDiv.querySelector("p").textContent.trim();
+    deleteTask(taskDiv, title);
+  }
+});
+
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("edit-btn")) {
+    const taskDiv = e.target.closest(".List");
+    if (!taskDiv) return;
+
+    const title = taskDiv.querySelector("p").textContent.trim();
+
+    // Redirect to the form page with the title as query param
+    window.location.href = `/static/form.html?title=${encodeURIComponent(
+      title
+    )}`;
+  }
+});
+
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("view-btn")) {
+    const taskDiv = e.target.closest(".List");
+    if (!taskDiv) return;
+
+    const title = taskDiv.querySelector("p").textContent.trim();
+    window.location.href = `/static/description.html?title=${encodeURIComponent(
+      title
+    )}`;
+  }
+});
 // Initial load
 toDo("all");

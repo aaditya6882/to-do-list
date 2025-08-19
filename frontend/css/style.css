@@ -31,6 +31,9 @@ section {
 .Search {
   margin-top: 30px;
 }
+.delete {
+  display: none;
+}
 input {
   margin-left: 64px;
   margin-right: 64px;
@@ -49,6 +52,9 @@ input {
   display: flex;
   justify-content: space-between;
   gap: 30px;
+}
+#CompletedClear {
+  cursor: pointer;
 }
 .container {
   display: flex;
@@ -88,6 +94,15 @@ main {
 .main-container::-webkit-scrollbar {
   display: none;
 }
+.priority-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
 .Other {
   margin-bottom: 30px;
 }
