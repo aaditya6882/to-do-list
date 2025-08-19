@@ -31,6 +31,9 @@ section {
 .Search {
   margin-top: 30px;
 }
+.delete {
+  display: none;
+}
 input {
   margin-left: 64px;
   margin-right: 64px;
