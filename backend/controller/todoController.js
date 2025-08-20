@@ -6,7 +6,7 @@ exports.getAllTodos = async (req, res) => {
 };
 
 exports.getTodoById = async (req, res) => {
-  const todo = await Todo.findOne({ title: req.params.title });
+  const todo = await Todo.findById(req.params.id);
   todo ? res.json(todo) : res.status(404).json({ error: "To-Do not found" });
 };
 
@@ -21,7 +21,7 @@ exports.createTodo = async (req, res) => {
 
 exports.updateTodo = async (req, res) => {
   const { title } = req.params;
-  const updated = await Todo.findOneAndUpdate({ title }, req.body, {
+  const updated = await Todo.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
   updated
@@ -30,7 +30,7 @@ exports.updateTodo = async (req, res) => {
 };
 
 exports.deleteTodo = async (req, res) => {
-  const deleted = await Todo.findOneAndDelete(req.params.title);
+  const deleted = await Todo.findByIdAndDelete(req.params.id);
   deleted
     ? res.json({ message: "To-Do deleted" })
     : res.status(404).json({ error: "To-Do not found" });

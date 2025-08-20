@@ -12,27 +12,30 @@
   </head>
   <body>
     <header>
-      <div id="AllList">
-        <i class="fa-solid fa-list"></i>
-        <p>All List</p>
+      <div class="nav-items">
+        <div id="AllList">
+          <i class="fa-solid fa-list"></i>
+          <p>All List</p>
+        </div>
+        <div id="today">
+          <i class="fa-solid fa-calendar-day"></i>
+          <p>Today</p>
+        </div>
+        <div id="Upcomming">
+          <i class="fa-solid fa-calendar-week"></i>
+          <p>Upcomming</p>
+        </div>
+        <div onclick="window.location.href='/static/form.html'">
+          <i class="fa-solid fa-plus"></i>
+          <p>Add List</p>
+        </div>
       </div>
-      <div id="today">
-        <i class="fa-solid fa-calendar-day"></i>
-        <p>Today</p>
-      </div>
-      <div id="Upcomming">
-        <i class="fa-solid fa-calendar-week"></i>
-        <p>Upcomming</p>
-      </div>
-      <div onclick="window.location.href='/static/form.html'">
-        <i class="fa-solid fa-plus"></i>
-        <p>Add List</p>
-      </div>
+      <div class="nav-toggle"><i class="fa-solid fa-bars"></i></div>
     </header>
 
     <section>
       <div class="Search">
-        <input type="text" placeholder="🔍 Search" />
+        <p>To Do List</p>
       </div>
 
       <div class="Day-delete">
@@ -42,7 +45,6 @@
           <p class="CompletedClear">
             <i class="fa-solid fa-trash"></i> Clear Completed
           </p>
-          <p><i class="fa-solid fa-filter"></i> Filter</p>
         </div>
       </div>
 
@@ -52,9 +54,15 @@
       </div>
 
       <div class="container">
-        <div><p>TO DO</p></div>
-        <div><p>Critical</p></div>
-        <div><p>Completed</p></div>
+        <div id="filter-todo" style="background-color: gray">
+          <p>TO DO</p>
+        </div>
+        <div id="filter-critical" style="background-color: #f63b3e">
+          <p>Critical</p>
+        </div>
+        <div id="filter-completed" style="background-color: #3b82f6">
+          <p>Completed</p>
+        </div>
       </div>
 
       <!-- Personal -->

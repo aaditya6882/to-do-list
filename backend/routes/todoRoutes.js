@@ -3,9 +3,9 @@ const router = express.Router();
 const todoController = require("../controller/todoController");
 
 router.get("/", todoController.getAllTodos);
-router.get("/:title", todoController.getTodoById);
+router.get("/:id", todoController.getTodoById);
 router.post("/", todoController.createTodo);
-router.put("/:title", todoController.updateTodo);
-router.delete("/:title", todoController.deleteTodo);
+router.put("/:id", todoController.updateTodo);
+router.delete("/:id", todoController.deleteTodo);
 
 module.exports = router;

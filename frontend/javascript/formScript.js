@@ -42,7 +42,7 @@ let editing = null;
 
 // Check URL for edit
 const params = new URLSearchParams(window.location.search);
-const editTitle = params.get("title");
+const editTitle = params.get("id");
 
 if (editTitle) {
   editing = editTitle;

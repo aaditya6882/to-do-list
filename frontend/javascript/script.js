@@ -3,6 +3,19 @@ const AllList = document.querySelector("#AllList");
 const Upcoming = document.querySelector("#Upcomming");
 const todayStr = new Date().toDateString();
 
+const filterToDo = document.querySelector("#filter-todo");
+const filterCritical = document.querySelector("#filter-critical");
+const filterCompleted = document.querySelector("#filter-completed");
+
+document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.querySelector(".nav-toggle");
+  const navItems = document.querySelector(".nav-items");
+
+  toggle.addEventListener("click", () => {
+    navItems.classList.toggle("active");
+  });
+});
+
 // Button handlers
 if (Today) {
   Today.addEventListener("click", () => {
@@ -23,18 +36,28 @@ if (Upcoming) {
   });
 }
 
-// Main toDo function with filter
+filterToDo?.addEventListener("click", () => {
+  document.querySelector("#date-day").innerHTML = "To Do";
+  filterTasksByType("ToDo");
+});
+filterCritical?.addEventListener("click", () => {
+  document.querySelector("#date-day").innerHTML = "Critical";
+  filterTasksByType("Critical");
+});
+filterCompleted?.addEventListener("click", () => {
+  document.querySelector("#date-day").innerHTML = "Completed";
+  filterTasksByType("Completed");
+});
+
 async function toDo(filter = "all") {
   const personal = document.querySelector(".Personal .main-container");
   const work = document.querySelector(".Work .main-container");
   const other = document.querySelector(".Other .main-container");
-
   if (!personal && !work && !other) return;
 
   try {
     const response = await fetch("/api/todos");
     if (!response.ok) throw new Error("Network response was not ok");
-
     const todos = await response.json();
 
     if (personal) personal.innerHTML = "";
@@ -46,7 +69,7 @@ async function toDo(filter = "all") {
         ? new Date(t.dueDate).toDateString()
         : null;
 
-      // Filtering logic
+      // Date filtering
       if (filter === "today" && taskDueDateStr !== todayStr) return;
       if (
         filter === "upcoming" &&
@@ -54,45 +77,76 @@ async function toDo(filter = "all") {
       )
         return;
 
-      const taskDiv = document.createElement("div");
-      taskDiv.classList.add("List");
-      taskDiv.dataset.completed = t.completed ? "true" : "false";
-      let color = "";
-      if (t.completed) {
-        color = "blue";
-      } else if (t.priority === "Critical") {
-        color = "red";
-      } else if (t.priority === "ToDo") {
-        color = "gray";
-      }
-      taskDiv.innerHTML = `
-        <input type="checkbox" class="select container" />
-        <p onclick="window.location.href='/static/description.html?title=${encodeURIComponent(
-          t.title
-        )}'">
-          ${t.title}
-        </p>
-        <div class="list-menu-wrapper">
-          <span class="list-menu">⋮</span>
-
-          <div class="dropdown-menu">
-            <span class="edit-btn">Edit</span>
-            <span class="view-btn">View</span>
-            <span class="delete-btn">Delete</span>
-          </div>
-        </div>
-        <span class="priority-indicator" style="background-color: ${color};"></span>
-      `;
-
-      if (t.category.toLowerCase() === "work" && work)
-        work.appendChild(taskDiv);
-      else if (t.category.toLowerCase() === "other" && other)
-        other.appendChild(taskDiv);
-      else if (personal) personal.appendChild(taskDiv);
+      appendTaskDiv(t, personal, work, other);
     });
-  } catch (error) {
-    console.error("Error fetching todos:", error);
+  } catch (err) {
+    console.error("Error fetching todos:", err);
   }
+}
+
+// Type-based filter function
+async function filterTasksByType(type) {
+  const personal = document.querySelector(".Personal .main-container");
+  const work = document.querySelector(".Work .main-container");
+  const other = document.querySelector(".Other .main-container");
+  if (!personal && !work && !other) return;
+
+  try {
+    const response = await fetch("/api/todos");
+    if (!response.ok) throw new Error("Network response was not ok");
+    const todos = await response.json();
+
+    if (personal) personal.innerHTML = "";
+    if (work) work.innerHTML = "";
+    if (other) other.innerHTML = "";
+
+    todos.forEach((t) => {
+      const taskType = t.completed
+        ? "Completed"
+        : t.priority === "Critical"
+        ? "Critical"
+        : "ToDo";
+
+      if (taskType !== type) return; // Skip non-matching type
+      appendTaskDiv(t, personal, work, other);
+    });
+  } catch (err) {
+    console.error("Error fetching todos:", err);
+  }
+}
+
+function appendTaskDiv(t, personal, work, other) {
+  const taskDiv = document.createElement("div");
+  taskDiv.classList.add("List");
+  taskDiv.dataset.completed = t.completed ? "true" : "false";
+  taskDiv.dataset.id = t._id;
+
+  let color = t.completed
+    ? "#3b82f6"
+    : t.priority === "Critical"
+    ? "#f63b3e"
+    : "gray";
+
+  taskDiv.innerHTML = `
+    <input type="checkbox" class="select container" />
+    <p onclick="window.location.href='/static/description.html?id=${encodeURIComponent(
+      t._id
+    )}'">${t.title}</p>
+    <div class="list-menu-wrapper">
+      <span class="list-menu">⋮</span>
+      <div class="dropdown-menu">
+        <span class="edit-btn">Edit</span>
+        <span class="view-btn">View</span>
+        <span class="delete-btn">Delete</span>
+      </div>
+    </div>
+    <span class="priority-indicator" style="background-color: ${color};"></span>
+  `;
+
+  if (t.category.toLowerCase() === "work" && work) work.appendChild(taskDiv);
+  else if (t.category.toLowerCase() === "other" && other)
+    other.appendChild(taskDiv);
+  else if (personal) personal.appendChild(taskDiv);
 }
 // Event delegation for dropdowns
 document.addEventListener("click", (e) => {
@@ -129,9 +183,12 @@ document.addEventListener("change", (e) => {
     deletes.style.display = anyChecked ? "block" : "none";
   }
 });
-async function deleteTask(taskDiv, title) {
+async function deleteTask(taskDiv) {
   try {
-    const res = await fetch(`/api/todos/${encodeURIComponent(title)}`, {
+    const id = taskDiv.dataset.id;
+    const confirmDelete = confirm("Are you sure you want to delete this task?");
+    if (!confirmDelete) return;
+    const res = await fetch(`/api/todos/${id}`, {
       method: "DELETE",
     });
     if (res.ok) taskDiv.remove();
@@ -146,7 +203,7 @@ clearCompleted?.addEventListener("click", async () => {
   for (const taskDiv of allLists) {
     if (taskDiv.dataset.completed === "true") {
       const title = taskDiv.querySelector("p").textContent.trim();
-      await deleteTask(taskDiv, title);
+      await deleteTask(taskDiv);
     }
   }
 });
@@ -177,14 +234,17 @@ document.addEventListener("click", async (e) => {
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("edit-btn")) {
     const taskDiv = e.target.closest(".List");
+    const completed = taskDiv.dataset.completed === "true";
+    if (completed) {
+      alert("Cannot edit completed tasks");
+      return;
+    }
     if (!taskDiv) return;
-
+    const id = taskDiv.dataset.id;
     const title = taskDiv.querySelector("p").textContent.trim();
 
     // Redirect to the form page with the title as query param
-    window.location.href = `/static/form.html?title=${encodeURIComponent(
-      title
-    )}`;
+    window.location.href = `/static/form.html?id=${encodeURIComponent(id)}`;
   }
 });
 
@@ -193,11 +253,12 @@ document.addEventListener("click", (e) => {
     const taskDiv = e.target.closest(".List");
     if (!taskDiv) return;
 
-    const title = taskDiv.querySelector("p").textContent.trim();
-    window.location.href = `/static/description.html?title=${encodeURIComponent(
-      title
+    const id = taskDiv.dataset.id;
+    window.location.href = `/static/description.html?id=${encodeURIComponent(
+      id
     )}`;
   }
 });
+
 // Initial load
 toDo("all");
