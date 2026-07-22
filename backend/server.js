@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const todoRoutes = require("./routes/todoRoutes"); // renamed for clarity
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, ".env") });
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json()); // parse JSON bodies
 
 // Serve static frontend files
-app.use("/static", express.static(path.join(__dirname, "../frontend")));
+app.use(express.static(path.join(__dirname, "../frontend")));
 
 // MongoDB connection
 mongoose

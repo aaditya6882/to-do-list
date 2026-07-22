@@ -129,7 +129,7 @@ function appendTaskDiv(t, personal, work, other) {
 
   taskDiv.innerHTML = `
     <input type="checkbox" class="select container" />
-    <p onclick="window.location.href='/static/description.html?id=${encodeURIComponent(
+    <p onclick="window.location.href='description.html?id=${encodeURIComponent(
       t._id
     )}'">${t.title}</p>
     <div class="list-menu-wrapper">
@@ -244,7 +244,7 @@ document.addEventListener("click", (e) => {
     const title = taskDiv.querySelector("p").textContent.trim();
 
     // Redirect to the form page with the title as query param
-    window.location.href = `/static/form.html?id=${encodeURIComponent(id)}`;
+    window.location.href = `form.html?id=${encodeURIComponent(id)}`;
   }
 });
 
@@ -254,7 +254,7 @@ document.addEventListener("click", (e) => {
     if (!taskDiv) return;
 
     const id = taskDiv.dataset.id;
-    window.location.href = `/static/description.html?id=${encodeURIComponent(
+    window.location.href = `description.html?id=${encodeURIComponent(
       id
     )}`;
   }

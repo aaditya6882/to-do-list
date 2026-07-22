@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         btn.textContent = "Completed!";
         btn.disabled = true;
 
-        window.location.href = "/static/index.html";
+        window.location.href = "index.html";
       });
     }
   } catch (err) {
