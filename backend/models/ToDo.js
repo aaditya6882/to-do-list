@@ -13,7 +13,7 @@ const todoSchema = new mongoose.Schema(
     priority: { type: String, enum: ["ToDo", "Critical"], default: "ToDo" },
     completed: { type: Boolean, default: false },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Todo", todoSchema);
